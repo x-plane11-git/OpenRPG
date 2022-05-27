@@ -2,6 +2,16 @@ import pygame, sys
 from setup import*
 from level import Level
 from pyvidplayer import Video
+from tkinter import*
+import ctypes
+ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 0 )
+splash_screan = Tk()
+splash_screan.geometry('700x300+400+300')
+splash_screan.overrideredirect(True) # remove border
+splash_screan.configure(background='black')
+# add text
+text = Label(splash_screan, text ="HYPERULT Games", font = ('Arial', 40,'bold'), fg = "white",bg = 'black')
+text.place(x = 120, y = 110)
 def intro():
     vid = Video("../media/Game_Intro.mp4")
     vid.set_size((WIDTH,HEIGHT))    
@@ -19,7 +29,6 @@ def intro():
 def torun():
     class Game:
         def __init__(self):
-        
             #Initialization
             pygame.init()
             self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -33,8 +42,7 @@ def torun():
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
-                        sys.exit()
-                    
+                        sys.exit() 
                 self.screen.fill('black')
                 self.level.run()
                 pygame.display.update()
@@ -42,4 +50,7 @@ def torun():
     if __name__ == '__main__':
         game = Game()
         game.run()
-intro()
+def hide():
+	splash_screan.destroy()
+	intro()
+splash_screan.after(5000, hide)
